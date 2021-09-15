@@ -36,9 +36,9 @@ This Quick Start Guide is divided into different tasks for easier consumption.
   >**Note:**
   > When using a cloud-hosted virtual machine you need to allow inbound TCP communication to ports 80 and 443.  Please see your cloud-host's documentation for information regarding port configuration.
   >
-  > For a full list of port requirements, refer to [Docker Installation]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/node-requirements/).
+  > For a full list of port requirements, refer to [Docker Installation]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/node-requirements/).
 
-  Provision the host according to our [Requirements]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/requirements/).
+  Provision the host according to our [Requirements]({{<baseurl>}}/rancher/v2.6/en/installation/requirements/).
 
 ### 2. Install Rancher
 
@@ -49,7 +49,7 @@ To install Rancher on your host, connect to it and then use a shell to install.
 2.  From your shell, enter the following command:
 
 	```
-  sudo docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher
+  sudo docker run -d --restart=unless-stopped -p 80:80 -p 443:443 --privileged rancher/rancher
   ```
 
 **Result:** Rancher is installed.
@@ -74,8 +74,8 @@ Welcome to Rancher! You are now able to create your first Kubernetes cluster.
 
 In this task, you can use the versatile **Custom** option. This option lets you add _any_ Linux host (cloud-hosted VM, on-prem VM, or bare-metal) to be used in a cluster.
 
-1. From the **Clusters** page, click **Add Cluster**.
-
+1.  Click **☰ > Cluster Management**.
+1. From the **Clusters** page, click **Create**.
 2. Choose **Custom**.
 
 3. Enter a **Cluster Name**.
@@ -98,9 +98,9 @@ In this task, you can use the versatile **Custom** option. This option lets you 
 
 **Result:** 
 
-Your cluster is created and assigned a state of **Provisioning.** Rancher is standing up your cluster.
+Your cluster is created and assigned a state of **Provisioning**. Rancher is standing up your cluster.
 
-You can access your cluster after its state is updated to **Active.**
+You can access your cluster after its state is updated to **Active**.
 
 **Active** clusters are assigned two Projects: 
 
@@ -113,4 +113,4 @@ Congratulations! You have created your first cluster.
 
 #### What's Next?
 
-Use Rancher to create a deployment. For more information, see [Creating Deployments]({{<baseurl>}}/rancher/v2.0-v2.4/en/quick-start-guide/workload).
+Use Rancher to create a deployment. For more information, see [Creating Deployments]({{<baseurl>}}/rancher/v2.6/en/quick-start-guide/workload).

@@ -1,30 +1,28 @@
 ---
 title: Adding Users to Projects
 weight: 2505
-aliases:
-  - /rancher/v2.0-v2.4/en/tasks/projects/add-project-members/
-  - /rancher/v2.0-v2.4/en/k8s-in-rancher/projects-and-namespaces/project-members/
 ---
 
 If you want to provide a user with access and permissions to _specific_ projects and resources within a cluster, assign the user a project membership.
 
 You can add members to a project as it is created, or add them to an existing project.
 
->**Tip:** Want to provide a user with access to _all_ projects within a cluster? See [Adding Cluster Members]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/cluster-members/) instead.
+>**Tip:** Want to provide a user with access to _all_ projects within a cluster? See [Adding Cluster Members]({{<baseurl>}}/rancher/v2.6/en/admin-settings/rbac/cluster-project-roles/) instead.
 
 ### Adding Members to a New Project
 
-You can add members to a project as you create it (recommended if possible). For details on creating a new project, refer to the [cluster administration section.]({{<baseurl>}}/rancher/v2.0-v2.4/en/k8s-in-rancher/projects-and-namespaces/)
+You can add members to a project as you create it (recommended if possible). For details on creating a new project, refer to the [cluster administration section.]({{<baseurl>}}/rancher/v2.6/en/cluster-admin/projects-and-namespaces/)
 
 ### Adding Members to an Existing Project
 
 Following project creation, you can add users as project members so that they can access its resources.
 
-1. From the **Global** view, open the project that you want to add members to.
-
-2. From the main menu, select **Members**. Then click **Add Member**.
-
-3. Search for the user or group that you want to add to the project.
+1. In the upper left corner, click **☰ > Cluster Management**.
+1. On the **Clusters** page, go to the cluster where you want to add members to a project and click **Explore**.
+1. Click **Cluster > Projects/Namespaces**.
+1. Go to the project where you want to add members and click **⋮ > Edit Config**.
+1. In the **Members** tab, click **Add**.
+1. Search for the user or group that you want to add to the project.
 
  	If external authentication is configured:
 
@@ -36,7 +34,7 @@ Following project creation, you can add users as project members so that they ca
 
 1. Assign the user or group **Project** roles.  
 
-	[What are Project Roles?]({{<baseurl>}}/rancher/v2.0-v2.4/en/admin-settings/rbac/cluster-project-roles/)
+	[What are Project Roles?]({{<baseurl>}}/rancher/v2.6/en/admin-settings/rbac/cluster-project-roles/)
 
     >**Notes:**
     >
@@ -44,8 +42,8 @@ Following project creation, you can add users as project members so that they ca
     >
     >- For `Custom` roles, you can modify the list of individual roles available for assignment.
     >
-    >    - To add roles to the list, [Add a Custom Role]({{<baseurl>}}/rancher/v2.0-v2.4/en/admin-settings/rbac/default-custom-roles).
-    >    - To remove roles from the list, [Lock/Unlock Roles]({{<baseurl>}}/rancher/v2.0-v2.4/en/admin-settings/rbac/locked-roles/).
+    >    - To add roles to the list, [Add a Custom Role]({{<baseurl>}}/rancher/v2.6/en/admin-settings/rbac/default-custom-roles).
+    >    - To remove roles from the list, [Lock/Unlock Roles]({{<baseurl>}}/rancher/v2.6/en/admin-settings/rbac/locked-roles/).
 
 **Result:** The chosen users are added to the project.
 

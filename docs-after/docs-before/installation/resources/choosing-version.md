@@ -1,22 +1,20 @@
 ---
 title: Choosing a Rancher Version
 weight: 1
-aliases:
-  - /rancher/v2.0-v2.4/en/installation/options/server-tags
 ---
 
 This section describes how to choose a Rancher version.
 
-For a high-availability installation of Rancher, which is recommended for production, the Rancher server is installed using a **Helm chart** on a Kubernetes cluster. Refer to the [Helm version requirements]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/options/helm-version) to choose a version of Helm to install Rancher.
+For a high-availability installation of Rancher, which is recommended for production, the Rancher server is installed using a **Helm chart** on a Kubernetes cluster. Refer to the [Helm version requirements]({{<baseurl>}}/rancher/v2.6/en/installation/resources/helm-version) to choose a version of Helm to install Rancher.
 
-For Docker installations of Rancher, which is used for development and testing, you will install Rancher as a **Docker image.**
+For Docker installations of Rancher, which is used for development and testing, you will install Rancher as a **Docker image**.
 
 {{% tabs %}}
 {{% tab "Helm Charts" %}}
 
-When installing, upgrading, or rolling back Rancher Server when it is [installed on a Kubernetes cluster]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/install-rancher-on-k8s/), Rancher server is installed using a Helm chart on a Kubernetes cluster. Therefore, as you prepare to install or upgrade a high availability Rancher configuration, you must add a Helm chart repository that contains the charts for installing Rancher.
+When installing, upgrading, or rolling back Rancher Server when it is [installed on a Kubernetes cluster]({{<baseurl>}}/rancher/v2.6/en/installation/install-rancher-on-k8s/), Rancher server is installed using a Helm chart on a Kubernetes cluster. Therefore, as you prepare to install or upgrade a high availability Rancher configuration, you must add a Helm chart repository that contains the charts for installing Rancher.
 
-Refer to the [Helm version requirements]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/options/helm-version) to choose a version of Helm to install Rancher.
+Refer to the [Helm version requirements]({{<baseurl>}}/rancher/v2.6/en/installation/resources/helm-version) to choose a version of Helm to install Rancher.
 
 ### Helm Chart Repositories
 
@@ -31,7 +29,7 @@ Rancher provides several different Helm chart repositories to choose from. We al
 <br/>
 Instructions on when to select these repos are available below in [Switching to a Different Helm Chart Repository](#switching-to-a-different-helm-chart-repository).
 
-> **Note:** The introduction of the `rancher-latest` and `rancher-stable` Helm Chart repositories was introduced after Rancher v2.1.0, so the `rancher-stable` repository contains some Rancher versions that were never marked as `rancher/rancher:stable`. The versions of Rancher that were tagged as `rancher/rancher:stable` before v2.1.0 are v2.0.4, v2.0.6, v2.0.8. Post v2.1.0, all charts in the `rancher-stable` repository will correspond with any Rancher version tagged as `stable`.
+> **Note:** All charts in the `rancher-stable` repository will correspond with any Rancher version tagged as `stable`.
 
 ### Helm Chart Versions
 
@@ -43,8 +41,6 @@ For more information, see https://helm.sh/docs/helm/helm_search_repo/
 
 To fetch a specific version of your chosen repo, define the `--version` parameter like in the following example:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;`helm fetch rancher-stable/rancher --version=2.4.8`
-
-For the Rancher v2.1.x versions, there were some Helm charts where the version was a build number, i.e. `yyyy.mm.<build-number>`. These charts have been replaced with the equivalent Rancher version and are no longer available.
 
 ### Switching to a Different Helm Chart Repository
 
@@ -76,10 +72,10 @@ After installing Rancher, if you want to change which Helm chart repository to i
     helm repo add rancher-<CHART_REPO> https://releases.rancher.com/server-charts/<CHART_REPO>
     ```
 
-4. Continue to follow the steps to [upgrade Rancher]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/upgrades-rollbacks/upgrades/ha) from the new Helm chart repository.
+4. Continue to follow the steps to [upgrade Rancher]({{<baseurl>}}/rancher/v2.6/en/installation/install-rancher-on-k8s/upgrades) from the new Helm chart repository.
 {{% /tab %}}
 {{% tab "Docker Images" %}}
-When performing [Docker installs]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/single-node), upgrades, or rollbacks, you can use _tags_ to install a specific version of Rancher.
+When performing [Docker installs]({{<baseurl>}}/rancher/v2.6/en/installation/other-installation-methods/single-node-docker), upgrades, or rollbacks, you can use _tags_ to install a specific version of Rancher.
 
 ### Server Tags
 

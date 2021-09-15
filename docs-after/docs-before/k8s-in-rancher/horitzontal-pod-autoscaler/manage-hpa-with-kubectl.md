@@ -1,8 +1,6 @@
 ---
 title: Managing HPAs with kubectl
 weight: 3029
-aliases:
-  - /rancher/v2.0-v2.4/en/k8s-in-rancher/horizontal-pod-autoscaler/manage-hpa-with-kubectl
 ---
 
 This section describes HPA management with `kubectl`. This document has instructions for how to:
@@ -13,13 +11,8 @@ This section describes HPA management with `kubectl`. This document has instruct
 - Configure your HPAs to scale with CPU or memory utilization
 - Configure your HPAs to scale using custom metrics, if you use a third-party tool such as Prometheus for metrics
 
-### Note For Rancher v2.3.x
 
-In Rancher v2.3.x, you can create, view, and delete HPAs from the Rancher UI. You can also configure them to scale based on CPU or memory usage from the Rancher UI. For more information, refer to [Managing HPAs with the Rancher UI]({{<baseurl>}}/rancher/v2.0-v2.4/en/k8s-in-rancher/horitzontal-pod-autoscaler/manage-hpa-with-rancher-ui). For scaling HPAs based on other metrics than CPU or memory, you still need `kubectl`.
-
-### Note For Rancher Before v2.0.7
-
-Clusters created with older versions of Rancher don't automatically have all the requirements to create an HPA. To install an HPA on these clusters, refer to [Manual HPA Installation for Clusters Created Before Rancher v2.0.7]({{<baseurl>}}/rancher/v2.0-v2.4/en/k8s-in-rancher/horitzontal-pod-autoscaler/hpa-for-rancher-before-2_0_7).
+You can create, view, and delete HPAs from the Rancher UI. You can also configure them to scale based on CPU or memory usage from the Rancher UI. For more information, refer to [Managing HPAs with the Rancher UI]({{<baseurl>}}/rancher/v2.6/en/k8s-in-rancher/horitzontal-pod-autoscaler/manage-hpa-with-rancher-ui). For scaling HPAs based on other metrics than CPU or memory, you still need `kubectl`.
 
 ##### Basic kubectl Command for Managing HPAs
 
@@ -83,7 +76,9 @@ Directive | Description
 
 ##### Configuring HPA to Scale Using Resource Metrics (CPU and Memory)
 
-Clusters created in Rancher v2.0.7 and higher have all the requirements needed (metrics-server and Kubernetes cluster configuration) to use Horizontal Pod Autoscaler. Run the following commands to check if metrics are available in your installation:
+Clusters created in Rancher v2.0.7 and higher have all the requirements needed (metrics-server and Kubernetes cluster configuration) to use Horizontal Pod Autoscaler. 
+
+Run the following commands to check if metrics are available in your installation:
 
 ```
 $ kubectl top nodes
@@ -113,7 +108,6 @@ I1002 12:55:32.925630       1 heapster.go:101] Starting Heapster API server...
 I1002 12:55:32.928597       1 serve.go:85] Serving securely on 0.0.0.0:443
 ```
 
-If you have created your cluster in Rancher v2.0.6 or before, please refer to the manual installation.
 
 ##### Configuring HPA to Scale Using Custom Metrics with Prometheus
 

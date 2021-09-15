@@ -3,9 +3,7 @@ title: Backing up a Cluster
 weight: 2045
 ---
 
-_Available as of v2.2.0_
-
-In the Rancher UI, etcd backup and recovery for [Rancher launched Kubernetes clusters]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/) can be easily performed.
+In the Rancher UI, etcd backup and recovery for [Rancher launched Kubernetes clusters]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/) can be easily performed.
 
 Rancher recommends configuring recurrent `etcd` snapshots for all production clusters. Additionally, one-time snapshots can easily be taken as well.
 
@@ -26,9 +24,6 @@ This section covers the following topics:
 - [Enabling snapshot features for clusters created before Rancher v2.2.0](#enabling-snapshot-features-for-clusters-created-before-rancher-v2-2-0)
 
 # How Snapshots Work
-
-{{% tabs %}}
-{{% tab "Rancher v2.4.0+" %}}
 
 ### Snapshot Components
 
@@ -84,58 +79,11 @@ On restore, the following process is used:
 4. The other etcd nodes download the snapshot and validate the checksum so that they all use the same snapshot for the restore.
 5.  The cluster is restored and post-restore actions will be done in the cluster.
 
-{{% /tab %}}
-{{% tab "Rancher before v2.4.0" %}}
-When Rancher creates a snapshot, only the etcd data is included in the snapshot.
-
-Because the Kubernetes version is not included in the snapshot, there is no option to restore a cluster to a different Kubernetes version.
-
-It's always recommended to take a new snapshot before any upgrades.
-
-### Generating the Snapshot from etcd Nodes
-
-For each etcd node in the cluster, the etcd cluster health is checked. If the node reports that the etcd cluster is healthy, a snapshot is created from it and optionally uploaded to S3.
-
-The snapshot is stored in `/opt/rke/etcd-snapshots`. If the directory is configured on the nodes as a shared mount, it will be overwritten. On S3, the snapshot will always be from the last node that uploads it, as all etcd nodes upload it and the last will remain.
-
-In the case when multiple etcd nodes exist, any created snapshot is created after the cluster has been health checked, so it can be considered a valid snapshot of the data in the etcd cluster.
-
-### Snapshot Naming Conventions
-
-The name of the snapshot is auto-generated. The `--name` option can be used to override the name of the snapshot when creating one-time snapshots with the RKE CLI.
-
-When Rancher creates a snapshot of an RKE cluster, the snapshot name is based on the type (whether the snapshot  is manual or recurring) and the target (whether the snapshot is saved locally or uploaded to S3). The naming convention is as follows:
-
-- `m` stands for manual
-- `r` stands for recurring
-- `l` stands for local
-- `s` stands for S3
-
-Some example snapshot names are:
-
-- c-9dmxz-rl-8b2cx
-- c-9dmxz-ml-kr56m
-- c-9dmxz-ms-t6bjb
-- c-9dmxz-rs-8gxc8
-
-### How Restoring from a Snapshot Works
-
-On restore, the following process is used:
-
-1. The snapshot is retrieved from S3, if S3 is configured.
-2. The snapshot is unzipped (if zipped).
-3. One of the etcd nodes in the cluster serves that snapshot file to the other nodes.
-4. The other etcd nodes download the snapshot and validate the checksum so that they all use the same snapshot for the restore.
-5.  The cluster is restored and post-restore actions will be done in the cluster.
-
-{{% /tab %}}
-{{% /tabs %}}
-
 # Configuring Recurring Snapshots
 
 Select how often you want recurring snapshots to be taken as well as how many snapshots to keep. The amount of time is measured in hours. With timestamped snapshots, the user has the ability to do a point-in-time recovery.
 
-By default, [Rancher launched Kubernetes clusters]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/) are configured to take recurring snapshots (saved to local disk). To protect against local disk failure, using the [S3 Target](#s3-backup-target) or replicating the path on disk is advised.
+By default, [Rancher launched Kubernetes clusters]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/) are configured to take recurring snapshots (saved to local disk). To protect against local disk failure, using the [S3 Target](#s3-backup-target) or replicating the path on disk is advised.
 
 During cluster provisioning or editing the cluster, the configuration for snapshots can be found in the advanced section for **Cluster Options**. Click on **Show advanced options**.
 
@@ -152,9 +100,9 @@ In the **Advanced Cluster Options** section, there are several options available
 
 In addition to recurring snapshots, you may want to take a "one-time" snapshot. For example, before upgrading the Kubernetes version of a cluster it's best to backup the state of the cluster to protect against upgrade failure.
 
-1. In the **Global** view, navigate to the cluster that you want to take a one-time snapshot.
-
-2. Click the **&#8942; > Snapshot Now**.
+1. In the upper left corner, click **☰ > Cluster Management**.
+1. On the **Clusters** page, navigate to the cluster where you want to take a one-time snapshot.
+1. Click **⋮ > Take Snapshot**.
 
 **Result:** Based on your [snapshot backup target](#snapshot-backup-targets), a one-time snapshot will be taken and saved in the selected backup target.
 
@@ -167,7 +115,7 @@ Rancher supports two different backup targets:
 
 ### Local Backup Target
 
-By default, the `local` backup target is selected. The benefits of this option is that there is no external configuration. Snapshots are automatically saved locally to the etcd nodes in the [Rancher launched Kubernetes clusters]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/) in `/opt/rke/etcd-snapshots`. All recurring snapshots are taken at configured intervals. The downside of using the `local` backup target is that if there is a total disaster and _all_ etcd nodes are lost, there is no ability to restore the cluster.
+By default, the `local` backup target is selected. The benefits of this option is that there is no external configuration. Snapshots are automatically saved locally to the etcd nodes in the [Rancher launched Kubernetes clusters]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/) in `/opt/rke/etcd-snapshots`. All recurring snapshots are taken at configured intervals. The downside of using the `local` backup target is that if there is a total disaster and _all_ etcd nodes are lost, there is no ability to restore the cluster.
 
 ### S3 Backup Target
 
@@ -180,11 +128,9 @@ The `S3` backup target allows users to configure a S3 compatible backend to stor
 |S3 Region Endpoint|S3 regions endpoint for the backup bucket|* |
 |S3 Access Key|S3 access key with permission to access the backup bucket|*|
 |S3 Secret Key|S3 secret key with permission to access the backup bucket|*|
-| Custom CA Certificate | A custom certificate used to access private S3 backends _Available as of v2.2.5_ ||
+| Custom CA Certificate | A custom certificate used to access private S3 backends ||
 
 ### Using a custom CA certificate for S3
-
-_Available as of v2.2.5_
 
 The backup snapshot can be stored on a custom `S3` backup like [minio](https://min.io/). If the S3 back end uses a self-signed or custom certificate, provide a custom certificate using the `Custom CA Certificate` option to connect to the S3 backend.
 
@@ -203,18 +149,18 @@ The `S3` backup target supports using IAM authentication to AWS API in addition 
 
 The list of all available snapshots for the cluster is available in the Rancher UI.
 
-1. In the **Global** view, navigate to the cluster that you want to view snapshots.
-
-2. Click **Tools > Snapshots** from the navigation bar to view the list of saved snapshots. These snapshots include a timestamp of when they were created.
+1. In the upper left corner, click **☰ > Cluster Management**.
+1. In the **Clusters** page, go to the cluster where you want to view the snapshots and click its name.
+1. Click the **Snapshots** tab to view the list of saved snapshots. These snapshots include a timestamp of when they were created.
 
 # Safe Timestamps
 
-_Available as of v2.3.0_
+Snapshot files are timestamped to simplify processing the files using external tools and scripts, but in some S3 compatible backends, these timestamps were unusable. 
 
-As of v2.2.6, snapshot files are timestamped to simplify processing the files using external tools and scripts, but in some S3 compatible backends, these timestamps were unusable. As of Rancher v2.3.0, the option `safe_timestamp` is added to support compatible file names. When this flag is set to `true`, all special characters in the snapshot filename timestamp are replaced.
+The option `safe_timestamp` is added to support compatible file names. When this flag is set to `true`, all special characters in the snapshot filename timestamp are replaced.
 
 This option is not available directly in the UI, and is only available through the `Edit as Yaml` interface.
 
 # Enabling Snapshot Features for Clusters Created Before Rancher v2.2.0
 
-If you have any Rancher launched Kubernetes clusters that were created before v2.2.0, after upgrading Rancher, you must [edit the cluster]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-admin/editing-clusters/) and _save_ it, in order to enable the updated snapshot features. Even if you were already creating snapshots before v2.2.0, you must do this step as the older snapshots will not be available to use to [back up and restore etcd through the UI]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-admin/restoring-etcd/).
+If you have any Rancher launched Kubernetes clusters that were created before v2.2.0, after upgrading Rancher, you must [edit the cluster]({{<baseurl>}}/rancher/v2.6/en/cluster-admin/editing-clusters/) and _save_ it, in order to enable the updated snapshot features. Even if you were already creating snapshots before v2.2.0, you must do this step as the older snapshots will not be available to use to [back up and restore etcd through the UI]({{<baseurl>}}/rancher/v2.6/en/cluster-admin/restoring-etcd/).

@@ -1,17 +1,15 @@
 ---
 title: Configuring Active Directory (AD)
 weight: 1112
-aliases:
-    - /rancher/v2.0-v2.4/en/tasks/global-configuration/authentication/active-directory/
 ---
 
 If your organization uses Microsoft Active Directory as central user repository, you can configure Rancher to communicate with an Active Directory server to authenticate users. This allows Rancher admins to control access to clusters and projects based on users and groups managed externally in the Active Directory, while allowing end-users to authenticate with their AD credentials when logging in to the Rancher UI.
 
-Rancher uses LDAP to communicate with the Active Directory server. The authentication flow for Active Directory is therefore the same as for the [OpenLDAP authentication]({{<baseurl>}}/rancher/v2.0-v2.4/en/admin-settings/authentication/openldap) integration.
+Rancher uses LDAP to communicate with the Active Directory server. The authentication flow for Active Directory is therefore the same as for the [OpenLDAP authentication]({{<baseurl>}}/rancher/v2.6/en/admin-settings/authentication/openldap) integration.
 
 > **Note:**
 >
-> Before you start, please familiarise yourself with the concepts of [External Authentication Configuration and Principal Users]({{<baseurl>}}/rancher/v2.0-v2.4/en/admin-settings/authentication/#external-authentication-configuration-and-principal-users).
+> Before you start, please familiarise yourself with the concepts of [External Authentication Configuration and Principal Users]({{<baseurl>}}/rancher/v2.6/en/admin-settings/authentication/#external-authentication-configuration-and-principal-users).
 
 ## Prerequisites
 
@@ -23,14 +21,17 @@ Note however, that in some locked-down Active Directory configurations this defa
 
 > **Using TLS?**
 >
-> If the certificate used by the AD server is self-signed or not from a recognised certificate authority, make sure have at hand the CA certificate (concatenated with any intermediate certificates) in PEM format. You will have to paste in this certificate during the configuration so that Rancher is able to validate the certificate chain.
+> If the certificate used by the AD server is self-signed or not from a recognized certificate authority, make sure have at hand the CA certificate (concatenated with any intermediate certificates) in PEM format. You will have to paste in this certificate during the configuration so that Rancher is able to validate the certificate chain.
 
 ## Configuration Steps
 ### Open Active Directory Configuration
 
 1. Log into the Rancher UI using the initial local `admin` account.
-2. From the **Global** view, navigate to **Security** > **Authentication**
-3. Select **Active Directory**. The **Configure an AD server** form will be displayed.
+1.	In the top left corner, click **☰ > Users & Authentication**.
+1. In the left navigation menu, click **Auth Provider**.
+1. Click **ActiveDirectory**. The **Authentication Provider: ActiveDirectory** form will be displayed.
+1. Fill out the form. For help, refer to the details on configuration options below.
+1. Click **Enable**.
 
 ### Configure Active Directory Server Settings
 
@@ -196,4 +197,4 @@ In the same way, we can observe that the value in the **memberOf** attribute in 
 
 ## Annex: Troubleshooting
 
-If you are experiencing issues while testing the connection to the Active Directory server, first double-check the credentials entered for the service account as well as the search base configuration. You may also inspect the Rancher logs to help pinpointing the problem cause. Debug logs may contain more detailed information about the error. Please refer to [How can I enable debug logging]({{<baseurl>}}/rancher/v2.0-v2.4/en/faq/technical/#how-can-i-enable-debug-logging) in this documentation.
+If you are experiencing issues while testing the connection to the Active Directory server, first double-check the credentials entered for the service account as well as the search base configuration. You may also inspect the Rancher logs to help pinpointing the problem cause. Debug logs may contain more detailed information about the error. Please refer to [How can I enable debug logging]({{<baseurl>}}/rancher/v2.6/en/faq/technical/#how-can-i-enable-debug-logging) in this documentation.

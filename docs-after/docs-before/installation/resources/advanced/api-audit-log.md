@@ -1,9 +1,6 @@
 ---
 title: Enabling the API Audit Log to Record System Events
 weight: 4
-aliases:
-  - /rancher/v2.0-v2.4/en/installation/options/api-audit-log/
-  - /rancher/v2.0-v2.4/en/installation/api-auditing
 ---
 
 You can enable the API audit log to record the sequence of system events initiated by individual users. You can know what happened, when it happened, who initiated it, and what cluster it affected. When you enable this feature, all requests to the Rancher API and all responses from it are written to a log.
@@ -14,9 +11,9 @@ You can enable API Auditing during Rancher installation or upgrade.
 
 The Audit Log is enabled and configured by passing environment variables to the Rancher server container. See the following to enable on your installation.
 
-- [Docker Install]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/other-installation-methods/single-node-docker/advanced/#api-audit-log)
+- [Docker Install]({{<baseurl>}}/rancher/v2.6/en/installation/other-installation-methods/single-node-docker/advanced/#api-audit-log)
 
-- [Kubernetes Install]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/install-rancher-on-k8s/chart-options/#api-audit-log)
+- [Kubernetes Install]({{<baseurl>}}/rancher/v2.6/en/installation/install-rancher-on-k8s/chart-options/#api-audit-log)
 
 ## API Audit Log Options
 
@@ -61,16 +58,9 @@ The `rancher-audit-log` container is part of the `rancher` pod in the `cattle-sy
 kubectl -n cattle-system logs -f rancher-84d886bdbb-s4s69 rancher-audit-log
 ```
 
-#### Rancher Web GUI
-
-1. From the context menu, select **Cluster: local > System**.
-1. From the main navigation bar, choose **Resources > Workloads.** (In versions before v2.3.0, choose **Workloads** on the main navigation bar.) Find the `cattle-system` namespace. Open the `rancher` workload by clicking its link.
-1. Pick one of the `rancher` pods and select **&#8942; > View Logs**.
-1. From the **Logs** drop-down, select `rancher-audit-log`.
-
 #### Shipping the Audit Log
 
-You can enable Rancher's built in log collection and shipping for the cluster to ship the audit and other services logs to a supported collection endpoint. See [Rancher Tools - Logging]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-admin/tools/logging) for details.
+You can enable Rancher's built in log collection and shipping for the cluster to ship the audit and other services logs to a supported collection endpoint. See [Rancher Tools - Logging]({{<baseurl>}}/rancher/v2.6/en/logging) for details.
 
 ## Audit Log Samples
 

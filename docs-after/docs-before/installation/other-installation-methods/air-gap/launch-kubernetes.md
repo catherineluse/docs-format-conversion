@@ -1,17 +1,13 @@
 ---
 title: '3. Install Kubernetes (Skip for Docker Installs)'
 weight: 300
-aliases:
-  - /rancher/v2.0-v2.4/en/installation/air-gap-high-availability/install-kube
 ---
 
 > Skip this section if you are installing Rancher on a single node with Docker.
 
-This section describes how to install a Kubernetes cluster according to our [best practices for the Rancher server environment.]({{<baseurl>}}/rancher/v2.0-v2.4/en/overview/architecture-recommendations/#environment-for-kubernetes-installations) This cluster should be dedicated to run only the Rancher server.
+This section describes how to install a Kubernetes cluster according to our [best practices for the Rancher server environment.]({{<baseurl>}}/rancher/v2.6/en/overview/architecture-recommendations/#environment-for-kubernetes-installations) This cluster should be dedicated to run only the Rancher server.
 
-For Rancher before v2.4, Rancher should be installed on an [RKE]({{<baseurl>}}/rke/latest/en/) (Rancher Kubernetes Engine) Kubernetes cluster. RKE is a CNCF-certified Kubernetes distribution that runs entirely within Docker containers.
-
-In Rancher v2.4, the Rancher management server can be installed on either an RKE cluster or a K3s Kubernetes cluster. K3s is also a fully certified Kubernetes distribution released by Rancher, but is newer than RKE. We recommend installing Rancher on K3s because K3s is easier to use, and more lightweight, with a binary size of less than 100 MB. The Rancher management server can only be run on a Kubernetes cluster in an infrastructure provider where Kubernetes is installed using RKE or K3s. Use of Rancher on hosted Kubernetes providers, such as EKS, is not supported. Note: After Rancher is installed on an RKE cluster, there is no migration path to a K3s setup at this time. 
+Rancher can be installed on any Kubernetes cluster, including hosted Kubernetes providers.
 
 The steps to set up an air-gapped Kubernetes cluster on RKE or K3s are shown below.
 
@@ -153,7 +149,7 @@ From a system that can access ports 22/TCP and 6443/TCP on the Linux host node(s
 
 This file is an RKE configuration file, which is a configuration for the cluster you're deploying Rancher to.
 
-Replace values in the code sample below with help of the _RKE Options_ table. Use the IP address or DNS names of the [3 nodes]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/air-gap-high-availability/provision-hosts) you created.
+Replace values in the code sample below with help of the _RKE Options_ table. Use the IP address or DNS names of the three nodes you created.
 
 > **Tip:** For more details on the options available, see the RKE [Config Options]({{<baseurl>}}/rke/latest/en/config-options/).
 
@@ -219,6 +215,6 @@ Save a copy of the following files in a secure location:
 
 ### Issues or errors?
 
-See the [Troubleshooting]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/options/troubleshooting/) page.
+See the [Troubleshooting]({{<baseurl>}}/rancher/v2.6/en/installation/resources/troubleshooting/) page.
 
 ### [Next: Install Rancher](../install-rancher)

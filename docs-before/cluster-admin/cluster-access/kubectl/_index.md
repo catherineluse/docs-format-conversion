@@ -2,12 +2,6 @@
 title: "Access a Cluster with Kubectl and kubeconfig"
 description: "Learn how you can access and manage your Kubernetes clusters using kubectl with kubectl Shell or with kubectl CLI and kubeconfig file. A kubeconfig file is used to configure access to Kubernetes. When you create a cluster with Rancher, it automatically creates a kubeconfig for your cluster."
 weight: 2010
-aliases:
-  - /rancher/v2.0-v2.4/en/k8s-in-rancher/kubectl/
-  - /rancher/v2.0-v2.4/en/cluster-admin/kubectl
-  - /rancher/v2.0-v2.4/en/concepts/clusters/kubeconfig-files/
-  - /rancher/v2.0-v2.4/en/k8s-in-rancher/kubeconfig/
-  - /rancher/2.x/en/cluster-admin/kubeconfig
 ---
 
 This section describes how to manipulate your downstream Kubernetes cluster with kubectl from the Rancher UI or from your workstation.
@@ -26,9 +20,9 @@ For more information on using kubectl, see [Kubernetes Documentation: Overview o
 
 You can access and manage your clusters by logging into Rancher and opening the kubectl shell in the UI. No further configuration necessary.
 
-1. From the **Global** view, open the cluster that you want to access with kubectl.
-
-2. Click **Launch kubectl**. Use the window that opens to interact with your Kubernetes cluster.
+1. Click **☰ > Cluster Management**.
+1. Go to the cluster you want to access with kubectl and click **Explore**.
+1. In the top navigation menu, click the **Kubectl Shell** button. Use the window that opens to interact with your Kubernetes cluster.
 
 ### Accessing Clusters with kubectl from Your Workstation
 
@@ -38,10 +32,10 @@ This alternative method of accessing the cluster allows you to authenticate with
 
 > **Prerequisites:** These instructions assume that you have already created a Kubernetes cluster, and that kubectl is installed on your workstation. For help installing kubectl, refer to the official [Kubernetes documentation.](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
-1. Log into Rancher. From the **Global** view, open the cluster that you want to access with kubectl.
-1. Click **Kubeconfig File**.
-1. Copy the contents displayed to your clipboard.
-1. Paste the contents into a new file on your local computer. Move the file to `~/.kube/config`. Note: The default location that kubectl uses for the kubeconfig file is `~/.kube/config`, but you can use any directory and specify it using the `--kubeconfig` flag, as in this command:
+1. Log into Rancher. Click **☰ > Cluster Management**.
+1. Go to the cluster that you want to access with kubectl and click **Explore**.
+1. In the top navigation bar, click **Download KubeConfig** button.
+1. Save the YAML file on your local computer. Move the file to `~/.kube/config`. Note: The default location that kubectl uses for the kubeconfig file is `~/.kube/config`, but you can use any directory and specify it using the `--kubeconfig` flag, as in this command:
   ```
   kubectl --kubeconfig /custom/path/kube.config get pods
   ```
@@ -54,9 +48,9 @@ Rancher will discover and show resources created by `kubectl`. However, these re
 
 # Authenticating Directly with a Downstream Cluster
 
-This section intended to help you set up an alternative method to access an [RKE cluster.]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters)
+This section intended to help you set up an alternative method to access an [RKE cluster.]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters)
 
-This method is only available for RKE clusters that have the [authorized cluster endpoint]({{<baseurl>}}/rancher/v2.0-v2.4/en/overview/architecture/#4-authorized-cluster-endpoint) enabled. When Rancher creates this RKE cluster, it generates a kubeconfig file that includes additional kubectl context(s) for accessing your cluster. This additional context allows you to use kubectl to authenticate with the downstream cluster without authenticating through Rancher. For a longer explanation of how the authorized cluster endpoint works, refer to [this page.](../ace)
+This method is only available for RKE clusters that have the [authorized cluster endpoint]({{<baseurl>}}/rancher/v2.6/en/overview/architecture/#4-authorized-cluster-endpoint) enabled. When Rancher creates this RKE cluster, it generates a kubeconfig file that includes additional kubectl context(s) for accessing your cluster. This additional context allows you to use kubectl to authenticate with the downstream cluster without authenticating through Rancher. For a longer explanation of how the authorized cluster endpoint works, refer to [this page.](../ace)
 
 We recommend that as a best practice, you should set up this method to access your RKE cluster, so that just in case you can’t connect to Rancher, you can still access the cluster.
 
@@ -75,7 +69,7 @@ In this example, when you use `kubectl` with the first context, `my-cluster`, yo
 
 With the second context, `my-cluster-controlplane-1`, you would authenticate with the authorized cluster endpoint, communicating with an downstream RKE cluster directly.
 
-We recommend using a load balancer with the authorized cluster endpoint. For details, refer to the [recommended architecture section.]({{<baseurl>}}/rancher/v2.0-v2.4/en/overview/architecture-recommendations/#architecture-for-an-authorized-cluster-endpoint)
+We recommend using a load balancer with the authorized cluster endpoint. For details, refer to the [recommended architecture section.]({{<baseurl>}}/rancher/v2.6/en/overview/architecture-recommendations/#architecture-for-an-authorized-cluster-endpoint)
 
 Now that you have the name of the context needed to authenticate directly with the cluster, you can pass the name of the context in as an option when running kubectl commands. The commands will differ depending on whether your cluster has an FQDN defined. Examples are provided in the sections below.
 

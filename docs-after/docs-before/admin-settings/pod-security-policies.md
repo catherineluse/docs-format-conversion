@@ -1,10 +1,6 @@
 ---
 title: Pod Security Policies
-weight: 1135
-aliases:
-    - /rancher/v2.0-v2.4/en/concepts/global-configuration/pod-security-policies/
-    - /rancher/v2.0-v2.4/en/tasks/global-configuration/pod-security-policies/
-    - /rancher/v2.0-v2.4/en/tasks/clusters/adding-a-pod-security-policy/
+weight: 60
 ---
 
 _Pod Security Policies_ (or PSPs) are objects that control security-sensitive aspects of pod specification (like root privileges).
@@ -36,8 +32,6 @@ Read more about Pod Security Policies in the [Kubernetes Documentation](https://
 
 # Default PSPs
 
-_Available as of v2.0.7_
-
 Rancher ships with two default Pod Security Policies (PSPs): the `restricted` and `unrestricted` policies.
 
 ### Restricted
@@ -57,9 +51,9 @@ Using Rancher, you can create a Pod Security Policy using our GUI rather than cr
 
 ### Requirements
 
-Rancher can only assign PSPs for clusters that are [launched using RKE.]({{< baseurl >}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/)
+Rancher can only assign PSPs for clusters that are [launched using RKE.]({{< baseurl >}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/)
 
-You must enable PSPs at the cluster level before you can assign them to a project. This can be configured by [editing the cluster.]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-admin/editing-clusters/)
+You must enable PSPs at the cluster level before you can assign them to a project. This can be configured by [editing the cluster.]({{<baseurl>}}/rancher/v2.6/en/cluster-admin/editing-clusters/)
 
 It is a best practice to set PSP at the cluster level.
 
@@ -67,14 +61,12 @@ We recommend adding PSPs during cluster and project creation instead of adding i
 
 ### Creating PSPs in the Rancher UI
 
-1.	From the **Global** view, select **Security** > **Pod Security Policies** from the main menu. Then click **Add Policy**.
-
-	**Step Result:** The **Add Policy** form opens.
-
-2. Name the policy.
-
-3. Complete each section of the form. Refer to the [Kubernetes documentation]((https://kubernetes.io/docs/concepts/policy/pod-security-policy/)) for more information on what each policy does.
-
+1. In the upper left corner, click **☰ > Cluster Management**.
+1. In the left navigation bar, click **Pod Security Policies**.
+1. Click **Add policy**.
+1. Name the policy.
+1. Complete each section of the form. Refer to the [Kubernetes documentation](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) for more information on what each policy does.
+1. Click **Create**.
 
 # Configuration
 

@@ -5,13 +5,13 @@ weight: 1
 
 Rancher relies on users and groups to determine who is allowed to log in to Rancher and which resources they can access. When you configure an external authentication provider, users from that provider will be able to log in to your Rancher server. When a user logs in, the authentication provider will supply your Rancher server with a list of groups to which the user belongs.
 
-Access to clusters, projects, multi-cluster apps, and global DNS providers and entries can be controlled by adding either individual users or groups to these resources. When you add a group to a resource, all users who are members of that group in the authentication provider, will be able to access the resource with the permissions that you've specified for the group. For more information on roles and permissions, see [Role Based Access Control]({{<baseurl>}}/rancher/v2.0-v2.4/en/admin-settings/rbac/).
+Access to clusters, projects, multi-cluster apps, and global DNS providers and entries can be controlled by adding either individual users or groups to these resources. When you add a group to a resource, all users who are members of that group in the authentication provider, will be able to access the resource with the permissions that you've specified for the group. For more information on roles and permissions, see [Role Based Access Control]({{<baseurl>}}/rancher/v2.6/en/admin-settings/rbac/).
 
 ## Managing Members
 
-When adding a user or group to a resource, you can search for users or groups by beginning to type their name. The Rancher server will query the authentication provider to find users and groups that match what you've entered. Searching is limited to the authentication provider that you are currently logged in with. For example, if you've enabled GitHub authentication but are logged in using a [local]({{<baseurl>}}/rancher/v2.0-v2.4/en/admin-settings/authentication/local/) user account, you will not be able to search for GitHub users or groups.
+When adding a user or group to a resource, you can search for users or groups by beginning to type their name. The Rancher server will query the authentication provider to find users and groups that match what you've entered. Searching is limited to the authentication provider that you are currently logged in with. For example, if you've enabled GitHub authentication but are logged in using a [local]({{<baseurl>}}/rancher/v2.6/en/admin-settings/authentication/local/) user account, you will not be able to search for GitHub users or groups.
 
-All users, whether they are local users or from an authentication provider, can be viewed and managed. From the **Global** view, click on **Users**.
+All users, whether they are local users or from an authentication provider, can be viewed and managed. In the upper left corner, click **☰ > Users & Authentication**. In the left navigation bar, click **Users**.
 
 {{< saml_caveats >}}
 
@@ -23,9 +23,9 @@ Whenever a user logs in to the UI using an authentication provider, Rancher auto
 
 ### Automatically Refreshing User Information
 
-_Available as of v2.2.0_
+Rancher will periodically refresh the user information even before a user logs in through the UI. You can control how often Rancher performs this refresh. 
 
-Rancher will periodically refresh the user information even before a user logs in through the UI. You can control how often Rancher performs this refresh.  From the **Global** view, click on **Settings**. Two settings control this behavior:
+Two settings control this behavior:
 
 - **`auth-user-info-max-age-seconds`**
 
@@ -35,6 +35,10 @@ Rancher will periodically refresh the user information even before a user logs i
 
     This setting controls a recurring schedule for resyncing authentication provider information for all users. Regardless of whether a user has logged in or used the API recently, this will cause the user to be refreshed at the specified interval. This setting defaults to `0 0 * * *`, i.e. once a day at midnight. See the [Cron documentation](https://en.wikipedia.org/wiki/Cron) for more information on valid values for this setting.
 
+To change these settings,
+
+1. In the upper left corner, click **☰ > Global Settings**.
+1. Go to the setting you want to configure and click **⋮ > Edit Setting**.
 
 > **Note:** Since SAML does not support user lookup, SAML-based authentication providers do not support periodically refreshing user information. User information will only be refreshed when the user logs into the Rancher UI.
 
@@ -42,9 +46,8 @@ Rancher will periodically refresh the user information even before a user logs i
 
 If you are not sure the last time Rancher performed an automatic refresh of user information, you can perform a manual refresh of all users.
 
-1. From the **Global** view, click on **Users** in the navigation bar.
-
-1. Click on **Refresh Group Memberships**.
+1. In the upper left corner, click **☰ > Users & Authentication**.
+1. On the **Users** page, click on **Refresh Group Memberships**.
 
 **Results:** Rancher refreshes the user information for all users. Requesting this refresh will update which users can access Rancher as well as all the groups that each user belongs to.
 
@@ -53,12 +56,10 @@ If you are not sure the last time Rancher performed an automatic refresh of user
 
 ## Session Length
 
-_Available as of v2.3.0_
-
 The default length (TTL) of each user session is adjustable. The default session length is 16 hours.
 
-1. From the **Global** view, click on **Settings**.
-1. In the **Settings** page, find **`auth-user-session-ttl-minutes`** and click **Edit.**
-1. Enter the amount of time in minutes a session length should last and click **Save.**
+1. In the upper left corner, click **☰ > Global Settings**.
+1. Go to **`auth-user-session-ttl-minutes`** and click **⋮ > Edit Setting**.
+1. Enter the amount of time in minutes a session length should last and click **Save**.
 
 **Result:** Users are automatically logged out of Rancher after the set number of minutes.

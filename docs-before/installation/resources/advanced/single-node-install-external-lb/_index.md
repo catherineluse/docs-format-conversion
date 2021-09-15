@@ -1,11 +1,6 @@
 ---
 title: Docker Install with TLS Termination at Layer-7 NGINX Load Balancer
 weight: 252
-aliases:
-  - /rancher/v2.0-v2.4/en/installation/single-node/single-node-install-external-lb/
-  - /rancher/v2.0-v2.4/en/installation/other-installation-methods/single-node-docker/single-node-install-external-lb
-  - /rancher/v2.0-v2.4/en/installation/options/single-node-install-external-lb
-  - /rancher/v2.0-v2.4/en/installation/single-node-install-external-lb
 ---
 
 For development and testing environments that have a special requirement to terminate TLS/SSL at a load balancer instead of your Rancher Server container, deploy Rancher and configure a load balancer to work with it conjunction.
@@ -14,12 +9,9 @@ A layer-7 load balancer can be beneficial if you want to centralize your TLS ter
 
 This install procedure walks you through deployment of Rancher using a single container, and then provides a sample configuration for a layer-7 NGINX load balancer.
 
-> **Want to skip the external load balancer?**
-> See [Docker Installation]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/single-node) instead.
-
 ## Requirements for OS, Docker, Hardware, and Networking
 
-Make sure that your node fulfills the general [installation requirements.]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/requirements/)
+Make sure that your node fulfills the general [installation requirements.]({{<baseurl>}}/rancher/v2.6/en/installation/requirements/)
 
 ## Installation Outline
 
@@ -33,13 +25,13 @@ Make sure that your node fulfills the general [installation requirements.]({{<ba
 
 ## 1. Provision Linux Host
 
-Provision a single Linux host according to our [Requirements]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/requirements) to launch your Rancher Server.
+Provision a single Linux host according to our [Requirements]({{<baseurl>}}/rancher/v2.6/en/installation/requirements) to launch your Rancher Server.
 
 ## 2. Choose an SSL Option and Install Rancher
 
 For security purposes, SSL (Secure Sockets Layer) is required when using Rancher. SSL secures all Rancher network communication, like when you login or interact with a cluster.
 
-> **Do you want to...**
+> **Do you want to..**.
 >
 > - Complete an Air Gap Installation?
 > - Record all transactions with the Rancher API?
@@ -166,20 +158,20 @@ http {
 
 ## What's Next?
 
-- **Recommended:** Review [Single Node Backup and Restore]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/backups-and-restoration/single-node-backup-and-restoration/). Although you don't have any data you need to back up right now, we recommend creating backups after regular Rancher use.
-- Create a Kubernetes cluster: [Provisioning Kubernetes Clusters]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/).
+- **Recommended:** Review [Single Node Backup and Restore]({{<baseurl>}}/rancher/v2.6/en/backups/docker-installs/). Although you don't have any data you need to back up right now, we recommend creating backups after regular Rancher use.
+- Create a Kubernetes cluster: [Provisioning Kubernetes Clusters]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/).
 
 <br/>
 
 ## FAQ and Troubleshooting
 
-For help troubleshooting certificates, see [this section.]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/other-installation-methods/single-node-docker/troubleshooting)
+For help troubleshooting certificates, see [this section.]({{<baseurl>}}/rancher/v2.6/en/installation/other-installation-methods/single-node-docker/troubleshooting)
 
 ## Advanced Options
 
 ### API Auditing
 
-If you want to record all transactions with the Rancher API, enable the [API Auditing]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/api-auditing) feature by adding the flags below into your install command.
+If you want to record all transactions with the Rancher API, enable the [API Auditing]({{<baseurl>}}/rancher/v2.6/en/installation/resources/advanced/api-audit-log) feature by adding the flags below into your install command.
 
     -e AUDIT_LEVEL=1 \
     -e AUDIT_LOG_PATH=/var/log/auditlog/rancher-api-audit.log \
@@ -189,7 +181,7 @@ If you want to record all transactions with the Rancher API, enable the [API Aud
 
 ### Air Gap
 
-If you are visiting this page to complete an [Air Gap Installation]({{<baseurl>}}/rancher/v2.0-v2.4/en/installation/air-gap-installation/), you must pre-pend your private registry URL to the server tag when running the installation command in the option that you choose. Add `<REGISTRY.DOMAIN.COM:PORT>` with your private registry URL in front of `rancher/rancher:latest`.
+If you are visiting this page to complete an [Air Gap Installation]({{<baseurl>}}/rancher/v2.6/en/installation/other-installation-methods/air-gap), you must pre-pend your private registry URL to the server tag when running the installation command in the option that you choose. Add `<REGISTRY.DOMAIN.COM:PORT>` with your private registry URL in front of `rancher/rancher:latest`.
 
 **Example:**
 
@@ -205,8 +197,11 @@ You can bind mount a host volume to this location to preserve data on the host i
 docker run -d --restart=unless-stopped \
   -p 80:80 -p 443:443 \
   -v /opt/rancher:/var/lib/rancher \
+  --privileged \
   rancher/rancher:latest
 ```
+
+As of Rancher v2.5, privileged access is [required.]({{<baseurl>}}/rancher/v2.6/en/installation/other-installation-methods/single-node-docker/#privileged-access-for-rancher-v2-5)
 
 This layer 7 NGINX configuration is tested on NGINX version 1.13 (mainline) and 1.14 (stable).
 

@@ -1,9 +1,9 @@
 ---
-title: Imported clusters
+title: Registered clusters
 weight: 105
 ---
 
-The commands/steps listed on this page can be used to check clusters that you are importing or that are imported in Rancher.
+The commands/steps listed on this page can be used to check clusters that you are registering or that are registered in Rancher.
 
 Make sure you configured the correct kubeconfig (for example, `export KUBECONFIG=$PWD/kubeconfig_from_imported_cluster.yml`)
 
@@ -15,7 +15,7 @@ If the cattle-cluster-agent cannot connect to the configured `server-url`, the c
 
 #### cattle-node-agent
 
-> Note: Starting in Rancher 2.5 cattle-node-agents are only present in clusters created in Rancher with RKE.
+> Note: cattle-node-agents are only present in clusters created in Rancher with RKE.
 
 Check if the cattle-node-agent pods are present on each node, have status **Running** and don't have a high count of Restarts:
 

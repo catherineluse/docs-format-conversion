@@ -17,5 +17,16 @@ To this format:
 folder
   child_page_folder1.md
   child_page_folder2.md
-  _index.md
+  index.md
 ```
+
+and the `_category_.json` file looks like:
+
+```
+{
+  "label": "Title that appears in sidebar",
+  "position": 2
+}
+```
+
+The `label` is like `shortTitle` in Hugo, and `position` is like `weight` in Hugo.

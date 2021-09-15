@@ -11,7 +11,7 @@ Use the navigation bar on the left to find the current best practices for managi
 
 For more guidance on best practices, you can consult these resources:
 
-- [Security]({{<baseurl>}}/rancher/v2.0-v2.4/en/security/)
+- [Security]({{<baseurl>}}/rancher/v2.6/en/security/)
 - [Rancher Blog](https://rancher.com/blog/)
     - [Articles about best practices on the Rancher blog](https://rancher.com/tags/best-practices/)
     - [101 More Security Best Practices for Kubernetes](https://rancher.com/blog/2019/2019-01-17-101-more-kubernetes-security-best-practices/)

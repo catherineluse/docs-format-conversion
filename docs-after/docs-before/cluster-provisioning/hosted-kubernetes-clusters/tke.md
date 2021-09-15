@@ -4,11 +4,9 @@ shortTitle: Tencent Kubernetes Engine
 weight: 2125
 ---
 
-_Available as of v2.2.0_
+You can use Rancher to create a cluster hosted in Tencent Kubernetes Engine (TKE). Rancher has already implemented and packaged the [cluster driver]({{<baseurl>}}/rancher/v2.6/en/admin-settings/drivers/cluster-drivers/) for TKE, but by default, this cluster driver is `inactive`. In order to launch TKE clusters, you will need to [enable the TKE cluster driver]({{<baseurl>}}/rancher/v2.6/en/admin-settings/drivers/cluster-drivers/#activating-deactivating-cluster-drivers). After enabling the cluster driver, you can start provisioning TKE clusters.
 
-You can use Rancher to create a cluster hosted in Tencent Kubernetes Engine (TKE). Rancher has already implemented and packaged the [cluster driver]({{<baseurl>}}/rancher/v2.0-v2.4/en/admin-settings/drivers/cluster-drivers/) for TKE, but by default, this cluster driver is `inactive`. In order to launch TKE clusters, you will need to [enable the TKE cluster driver]({{<baseurl>}}/rancher/v2.0-v2.4/en/admin-settings/drivers/cluster-drivers/#activating-deactivating-cluster-drivers). After enabling the cluster driver, you can start provisioning TKE clusters.
-
-## Prerequisites in Tencent
+# Prerequisites in Tencent
 
 >**Note**
 >Deploying to TKE will incur charges.
@@ -21,9 +19,19 @@ You can use Rancher to create a cluster hosted in Tencent Kubernetes Engine (TKE
 
 4. Create a [SSH key pair](https://intl.cloud.tencent.com/document/product/213/6092). This key is used to access the nodes in the Kubernetes cluster.
 
-## Create a TKE Cluster
+# Prerequisite in Rancher
 
-1. From the **Clusters** page, click **Add Cluster**.
+You will need to enable the Tencent TKE cluster driver:
+
+1. Click **☰ > Cluster Management**.
+1. Click **Drivers**.
+1. In the **Cluster Drivers** tab, go to the **Tencent TKE** cluster driver and click **⋮ > Activate**.
+
+When the cluster driver is finished downloading, you will be able to create Tencent TKE clusters in Rancher.
+
+# Create a TKE Cluster
+
+1. From the **Clusters** page, click **Create**.
 
 2. Choose **Tencent TKE**.
 
@@ -48,7 +56,7 @@ You can use Rancher to create a cluster hosted in Tencent Kubernetes Engine (TKE
     | VPC | Select the VPC name that you have created in the Tencent Cloud Console. |
     | Container Network CIDR | Enter the CIDR range of your Kubernetes cluster, you may check the available range of the CIDR in the VPC service of the Tencent Cloud Console. Default to 172.16.0.0/16. |
 
-    **Note:** If you are editing the cluster in the `cluster.yml` instead of the Rancher UI, note that as of Rancher v2.3.0, cluster configuration directives must be nested under the `rancher_kubernetes_engine_config` directive in `cluster.yml`. For more information, refer to the section on [the config file structure in Rancher v2.3.0+.]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/options/#config-file-structure-in-rancher-v2-3-0)
+    **Note:** If you are editing the cluster in the `cluster.yml` instead of the Rancher UI, note that, cluster configuration directives must be nested under the `rancher_kubernetes_engine_config` directive in `cluster.yml`. For more information, refer to the section on [the config file structure in Rancher v2.3.0+.]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/options/#config-file-structure-in-rancher-v2-3-0)
 
 7. Click `Next: Select Instance Type` to choose the instance type that will use for your TKE cluster.
 
@@ -76,9 +84,9 @@ You can use Rancher to create a cluster hosted in Tencent Kubernetes Engine (TKE
 
 **Result:** 
 
-Your cluster is created and assigned a state of **Provisioning.** Rancher is standing up your cluster.
+Your cluster is created and assigned a state of **Provisioning**. Rancher is standing up your cluster.
 
-You can access your cluster after its state is updated to **Active.**
+You can access your cluster after its state is updated to **Active**.
 
 **Active** clusters are assigned two Projects: 
 

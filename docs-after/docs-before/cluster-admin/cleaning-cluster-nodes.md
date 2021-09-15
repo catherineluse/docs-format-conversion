@@ -14,7 +14,7 @@ When removing nodes from your Rancher launched Kubernetes cluster (provided that
 
 When cleaning nodes provisioned using Rancher, the following components are deleted based on the type of cluster node you're removing.
 
-| Removed Component                                                              | [Nodes Hosted by Infrastructure Provider][1] | [Custom Nodes][2] | [Hosted Cluster][3] | [Imported Nodes][4] |
+| Removed Component                                                              | [Nodes Hosted by Infrastructure Provider][1] | [Custom Nodes][2] | [Hosted Cluster][3] | [Registered Nodes][4] |
 | ------------------------------------------------------------------------------ | --------------- | ----------------- | ------------------- | ------------------- |
 | The Rancher deployment namespace (`cattle-system` by default)                  | ✓               | ✓                 | ✓                   | ✓                   |
 | `serviceAccount`, `clusterRoles`, and `clusterRoleBindings` labeled by Rancher | ✓               | ✓                 | ✓                   | ✓                   |
@@ -24,10 +24,10 @@ When cleaning nodes provisioned using Rancher, the following components are dele
 | All resources create under the `management.cattle.io` API Group                | ✓               | ✓                 | ✓                   |                     |
 | All CRDs created by Rancher v2.x                                               | ✓               | ✓                 | ✓                   |                     |
 
-[1]: {{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/node-pools/
-[2]: {{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/custom-nodes/
-[3]: {{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/hosted-kubernetes-clusters/
-[4]: {{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/imported-clusters/
+[1]: {{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/node-pools/
+[2]: {{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/custom-nodes/
+[3]: {{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/hosted-kubernetes-clusters/
+[4]: {{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/registered-clusters/
 
 ## Removing a Node from a Cluster by Rancher UI
 
@@ -49,17 +49,17 @@ When a node is unreachable and removed from the cluster, the automatic cleaning 
 
 >**Warning:** The commands listed below will remove data from the node. Make sure you have created a backup of files you want to keep before executing any of the commands as data will be lost.
 
-### Removing Rancher Components from Imported Clusters
+### Removing Rancher Components from Registered Clusters
 
-For imported clusters, the process for removing Rancher is a little different. You have the option of simply deleting the cluster in the Rancher UI, or your can run a script that removes Rancher components from the nodes. Both options make the same deletions.
+For registered clusters, the process for removing Rancher is a little different. You have the option of simply deleting the cluster in the Rancher UI, or your can run a script that removes Rancher components from the nodes. Both options make the same deletions.
 
-After the imported cluster is detached from Rancher, the cluster's workloads will be unaffected and you can access the cluster using the same methods that you did before the cluster was imported into Rancher.
+After the registered cluster is detached from Rancher, the cluster's workloads will be unaffected and you can access the cluster using the same methods that you did before the cluster was registered into Rancher.
 
 {{% tabs %}}
 {{% tab "By UI / API" %}}
 >**Warning:** This process will remove data from your cluster. Make sure you have created a backup of files you want to keep before executing the command, as data will be lost.
 
-After you initiate the removal of an imported cluster using the Rancher UI (or API), the following events occur.
+After you initiate the removal of a registered cluster using the Rancher UI (or API), the following events occur.
 
 1. Rancher creates a `serviceAccount` that it uses to remove the Rancher components from the cluster. This account is assigned the [clusterRole](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole) and [clusterRoleBinding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding) permissions, which are required to remove the Rancher components.
 
@@ -67,11 +67,11 @@ After you initiate the removal of an imported cluster using the Rancher UI (or A
 
 1. Rancher is removed from the cluster. However, the cluster persists, running the native version of Kubernetes.
 
-**Result:** All components listed for imported clusters in [What Gets Removed?](#what-gets-removed) are deleted.
+**Result:** All components listed for registered clusters in [What Gets Removed?](#what-gets-removed) are deleted.
 
 {{% /tab %}}
 {{% tab "By Script" %}}
-Rather than cleaning imported cluster nodes using the Rancher UI, you can run a script instead. This functionality is available since `v2.1.0`.
+Rather than cleaning registered cluster nodes using the Rancher UI, you can run a script instead.
 
 >**Prerequisite:**
 >
@@ -98,7 +98,7 @@ Rather than cleaning imported cluster nodes using the Rancher UI, you can run a 
     ./user-cluster.sh rancher/rancher-agent:<RANCHER_VERSION>
     ```
 
-**Result:** The script runs. All components listed for imported clusters in [What Gets Removed?](#what-gets-removed) are deleted.
+**Result:** The script runs. All components listed for registered clusters in [What Gets Removed?](#what-gets-removed) are deleted.
 
 {{% /tab %}}
 {{% /tabs %}}

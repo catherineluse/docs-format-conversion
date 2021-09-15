@@ -15,22 +15,12 @@ New password for default administrator (user-xxxxx):
 Kubernetes install (Helm):
 ```
 $ KUBECONFIG=./kube_config_rancher-cluster.yml
-$ kubectl --kubeconfig $KUBECONFIG -n cattle-system exec $(kubectl --kubeconfig $KUBECONFIG -n cattle-system get pods -l app=rancher | grep '1/1' | head -1 | awk '{ print $1 }') -- reset-password
+$ kubectl --kubeconfig $KUBECONFIG -n cattle-system exec $(kubectl --kubeconfig $KUBECONFIG -n cattle-system get pods -l app=rancher --no-headers | head -1 | awk '{ print $1 }') -c rancher -- reset-password
 New password for default administrator (user-xxxxx):
 <new_password>
 ```
 
-> #### **Important: RKE add-on install is only supported up to Rancher v2.0.8**
->
->If you are currently using the RKE add-on install method, see [Migrating from a Kubernetes Install with an RKE Add-on]({{<baseurl>}}/rancher/v2.0-v2.4/en/upgrades/upgrades/migrating-from-rke-add-on/) for details on how to move to using the helm chart.
 
-Kubernetes install (RKE add-on):
-```
-$ KUBECONFIG=./kube_config_rancher-cluster.yml
-$ kubectl --kubeconfig $KUBECONFIG exec -n cattle-system $(kubectl --kubeconfig $KUBECONFIG get pods -n cattle-system -o json | jq -r '.items[] | select(.spec.containers[].name=="cattle-server") | .metadata.name') -- reset-password
-New password for default administrator (user-xxxxx):
-<new_password>
-```
 
 ### I deleted/deactivated the last admin, how can I fix it?
 Docker Install:
@@ -48,22 +38,9 @@ $ kubectl --kubeconfig $KUBECONFIG -n cattle-system exec $(kubectl --kubeconfig 
 New password for default administrator (user-xxxxx):
 <new_password>
 ```
-
-> #### **Important: RKE add-on install is only supported up to Rancher v2.0.8**
->
->If you are currently using the RKE add-on install method, see [Migrating from a Kubernetes Install with an RKE Add-on]({{<baseurl>}}/rancher/v2.0-v2.4/en/upgrades/upgrades/migrating-from-rke-add-on/) for details on how to move to using the helm chart.
-
-Kubernetes install (RKE add-on):
-```
-$ KUBECONFIG=./kube_config_rancher-cluster.yml
-$ kubectl --kubeconfig $KUBECONFIG exec -n cattle-system $(kubectl --kubeconfig $KUBECONFIG get pods -n cattle-system -o json | jq -r '.items[] | select(.spec.containers[].name=="cattle-server") | .metadata.name') -- ensure-default-admin
-New password for default admin user (user-xxxxx):
-<new_password>
-```
-
 ### How can I enable debug logging?
 
-See [Troubleshooting: Logging]({{<baseurl>}}/rancher/v2.0-v2.4/en/troubleshooting/logging/)
+See [Troubleshooting: Logging]({{<baseurl>}}/rancher/v2.6/en/troubleshooting/logging/)
 
 ### My ClusterIP does not respond to ping
 
@@ -75,7 +52,7 @@ Node Templates can be accessed by opening your account menu (top right) and sele
 
 ### Why is my Layer-4 Load Balancer in `Pending` state?
 
-The Layer-4 Load Balancer is created as `type: LoadBalancer`. In Kubernetes, this needs a cloud provider or controller that can satisfy these requests, otherwise these will be in `Pending` state forever. More information can be found on [Cloud Providers]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/options/cloud-providers/) or [Create External Load Balancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)
+The Layer-4 Load Balancer is created as `type: LoadBalancer`. In Kubernetes, this needs a cloud provider or controller that can satisfy these requests, otherwise these will be in `Pending` state forever. More information can be found on [Cloud Providers]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/cloud-providers/) or [Create External Load Balancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)
 
 ### Where is the state of Rancher stored?
 
@@ -88,7 +65,7 @@ We follow the validated Docker versions for upstream Kubernetes releases. The va
 
 ### How can I access nodes created by Rancher?
 
-SSH keys to access the nodes created by Rancher can be downloaded via the **Nodes** view. Choose the node which you want to access and click on the vertical &#8942; button at the end of the row, and choose **Download Keys** as shown in the picture below.
+SSH keys to access the nodes created by Rancher can be downloaded via the **Nodes** view. Choose the node which you want to access and click on the vertical ⋮ button at the end of the row, and choose **Download Keys** as shown in the picture below.
 
 ![Download Keys]({{<baseurl>}}/img/rancher/downloadsshkeys.png)
 
@@ -109,13 +86,13 @@ The UI consists of static files, and works based on responses of the API. That m
 
 A node is required to have a static IP configured (or a reserved IP via DHCP). If the IP of a node has changed, you will have to remove it from the cluster and readd it. After it is removed, Rancher will update the cluster to the correct state. If the cluster is no longer in `Provisioning` state, the node is removed from the cluster.
 
-When the IP address of the node changed, Rancher lost connection to the node, so it will be unable to clean the node properly. See [Cleaning cluster nodes]({{<baseurl>}}/rancher/v2.0-v2.4/en/faq/cleaning-cluster-nodes/) to clean the node.
+When the IP address of the node changed, Rancher lost connection to the node, so it will be unable to clean the node properly. See [Cleaning cluster nodes]({{<baseurl>}}/rancher/v2.6/en/cluster-admin/cleaning-cluster-nodes/) to clean the node.
 
 When the node is removed from the cluster, and the node is cleaned, you can readd the node to the cluster.
 
 ### How can I add additional arguments/binds/environment variables to Kubernetes components in a Rancher Launched Kubernetes cluster?
 
-You can add additional arguments/binds/environment variables via the [Config File]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/options/#cluster-config-file) option in Cluster Options. For more information, see the [Extra Args, Extra Binds, and Extra Environment Variables]({{<baseurl>}}/rke/latest/en/config-options/services/services-extras/) in the RKE documentation or browse the [Example Cluster.ymls]({{<baseurl>}}/rke/latest/en/example-yamls/).
+You can add additional arguments/binds/environment variables via the [Config File]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/options/#cluster-config-file) option in Cluster Options. For more information, see the [Extra Args, Extra Binds, and Extra Environment Variables]({{<baseurl>}}/rke/latest/en/config-options/services/services-extras/) in the RKE documentation or browse the [Example Cluster.ymls]({{<baseurl>}}/rke/latest/en/example-yamls/).
 
 ### How do I check if my certificate chain is valid?
 

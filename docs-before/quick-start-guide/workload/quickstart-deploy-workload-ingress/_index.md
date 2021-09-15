@@ -13,25 +13,14 @@ You're ready to create your first Kubernetes [workload](https://kubernetes.io/do
 
 For this workload, you'll be deploying the application Rancher Hello-World.
 
-1.  From the **Clusters** page, open the cluster that you just created.
-
-2.  From the main menu of the **Dashboard**, select **Projects/Namespaces**.
-
-3.  Open the **Project: Default** project.
-
-4.  Click **Resources > Workloads.** In versions before v2.3.0, click **Workloads > Workloads.**
-
-5.  Click **Deploy**.
-
-	**Step Result:** The **Deploy Workload** page opens.
-
-6.  Enter a **Name** for your workload.
-
-7.  From the **Docker Image** field, enter `rancher/hello-world`. This field is case-sensitive.
-
-8. Leave the remaining options on their default setting. We'll tell you about them later.
-
-9. Click **Launch**.
+1.  Click **☰ > Cluster Management**.
+1. Go to the cluster that you created and click **Explore**.
+1. Click **Workload**.
+1. Click **Create**.
+1. Click **Deployment**.
+1. Enter a **Name** for your workload.
+1. From the **Docker Image** field, enter `rancher/hello-world`. This field is case-sensitive.
+1. Click **Create**.
 
 **Result:**
 
@@ -43,13 +32,14 @@ For this workload, you'll be deploying the application Rancher Hello-World.
 
 Now that the application is up and running it needs to be exposed so that other services can connect.
 
-1.  From the **Clusters** page, open the cluster that you just created.
+1.  Click **☰ > Cluster Management**.
+1. Go to the cluster that you created and click **Explore**.
 
 2.  From the main menu of the **Dashboard**, select **Projects**.
 
 3.  Open the **Default** project.
 
-4.  Click **Resources > Workloads > Load Balancing.** In versions before v2.3.0, click the **Workloads** tab. Click on the **Load Balancing** tab.
+4.  Click **Resources > Workloads > Load Balancing**. Click on the **Load Balancing** tab.
 
 5.  Click **Add Ingress**.
 
@@ -77,6 +67,6 @@ Congratulations! You have successfully deployed a workload exposed via an ingres
 
 When you're done using your sandbox, destroy the Rancher Server and your cluster. See one of the following:
 
-- [Amazon AWS: Destroying the Environment]({{<baseurl>}}/rancher/v2.0-v2.4/en/quick-start-guide/deployment/amazon-aws-qs/#destroying-the-environment)
-- [DigitalOcean: Destroying the Environment]({{<baseurl>}}/rancher/v2.0-v2.4/en/quick-start-guide/deployment/digital-ocean-qs/#destroying-the-environment)
-- [Vagrant: Destroying the Environment]({{<baseurl>}}/rancher/v2.0-v2.4/en/quick-start-guide/deployment/quickstart-vagrant/#destroying-the-environment)
+- [Amazon AWS: Destroying the Environment]({{<baseurl>}}/rancher/v2.6/en/quick-start-guide/deployment/amazon-aws-qs/#destroying-the-environment)
+- [DigitalOcean: Destroying the Environment]({{<baseurl>}}/rancher/v2.6/en/quick-start-guide/deployment/digital-ocean-qs/#destroying-the-environment)
+- [Vagrant: Destroying the Environment]({{<baseurl>}}/rancher/v2.6/en/quick-start-guide/deployment/quickstart-vagrant/#destroying-the-environment)

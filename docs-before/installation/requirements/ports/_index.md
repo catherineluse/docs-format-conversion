@@ -9,12 +9,13 @@ To operate properly, Rancher requires a number of ports to be open on Rancher no
 - [Rancher Nodes](#rancher-nodes)
   - [Ports for Rancher Server Nodes on K3s](#ports-for-rancher-server-nodes-on-k3s)
   - [Ports for Rancher Server Nodes on RKE](#ports-for-rancher-server-nodes-on-rke)
+  - [Ports for Rancher Server Nodes on RKE2](#ports-for-rancher-server-nodes-on-rke2)
   - [Ports for Rancher Server in Docker](#ports-for-rancher-server-in-docker)
 - [Downstream Kubernetes Cluster Nodes](#downstream-kubernetes-cluster-nodes)
   - [Ports for Rancher Launched Kubernetes Clusters using Node Pools](#ports-for-rancher-launched-kubernetes-clusters-using-node-pools)
   - [Ports for Rancher Launched Kubernetes Clusters using Custom Nodes](#ports-for-rancher-launched-kubernetes-clusters-using-custom-nodes)
   - [Ports for Hosted Kubernetes Clusters](#ports-for-hosted-kubernetes-clusters)
-  - [Ports for Imported Clusters](#ports-for-imported-clusters)
+  - [Ports for Registered Clusters](#ports-for-registered-clusters)
 - [Other Port Considerations](#other-port-considerations)
   - [Commonly Used Ports](#commonly-used-ports)
   - [Local Node Traffic](#local-node-traffic)
@@ -26,6 +27,8 @@ To operate properly, Rancher requires a number of ports to be open on Rancher no
 The following table lists the ports that need to be open to and from nodes that are running the Rancher server.
 
 The port requirements differ based on the Rancher server architecture.
+
+Rancher can be installed on any Kubernetes cluster. For Rancher installs on a K3s, RKE, or RKE2 Kubernetes cluster, refer to the tabs below. For other Kubernetes distributions, refer to the distribution's documentation for the port requirements for cluster nodes.
 
 > **Notes:**
 >
@@ -52,7 +55,7 @@ The following tables break down the port requirements for inbound and outbound t
 | Protocol | Port | Source | Description
 |-----|-----|----------------|---|
 | TCP      | 80   | Load balancer/proxy that does external SSL termination                                                                                                                                | Rancher UI/API when external SSL termination is used |
-| TCP      | 443  | <ul><li>server nodes</li><li>agent nodes</li><li>hosted/imported Kubernetes</li><li>any source that needs to be able to use the Rancher UI or API</li></ul> | Rancher agent, Rancher UI/API, kubectl               |
+| TCP      | 443  | <ul><li>server nodes</li><li>agent nodes</li><li>hosted/registered Kubernetes</li><li>any source that needs to be able to use the Rancher UI or API</li></ul> | Rancher agent, Rancher UI/API, kubectl               |
 | TCP | 6443 | K3s server nodes | Kubernetes API
 | UDP | 8472 | K3s server and agent nodes | Required only for Flannel VXLAN.
 | TCP | 10250 | K3s server and agent nodes | kubelet
@@ -62,7 +65,7 @@ The following tables break down the port requirements for inbound and outbound t
 | Protocol | Port | Destination                                              | Description                                   |
 | -------- | ---- | -------------------------------------------------------- | --------------------------------------------- |
 | TCP      | 22   | Any node IP from a node created using Node Driver        | SSH provisioning of nodes using Node Driver   |
-| TCP      | 443  | git.rancher.io |  Rancher catalog                    |
+| TCP      | 443  | git.rancher.io |  Rancher catalog                     |
 | TCP      | 2376 | Any node IP from a node created using Node driver        | Docker daemon TLS port used by Docker Machine |
 | TCP      | 6443 | Hosted/Imported Kubernetes API                           | Kubernetes API server                         |
 
@@ -86,7 +89,7 @@ The following tables break down the port requirements for traffic between the Ra
 | TCP | 6443 | Kubernetes apiserver |
 | UDP | 8472 | Canal/Flannel VXLAN overlay networking |
 | TCP | 9099 | Canal/Flannel livenessProbe/readinessProbe |
-| TCP | 10250 | kubelet |
+| TCP | 10250 | Metrics server communication with all nodes |
 | TCP | 10254 | Ingress controller livenessProbe/readinessProbe |
 
 The following tables break down the port requirements for inbound and outbound traffic:
@@ -112,6 +115,36 @@ The following tables break down the port requirements for inbound and outbound t
 
 {{% /accordion %}}
 
+### Ports for Rancher Server Nodes on RKE2
+
+{{% accordion label="Click to expand" %}}
+
+The RKE2 server needs port 6443 and 9345 to be accessible by other nodes in the cluster.
+
+All nodes need to be able to reach other nodes over UDP port 8472 when Flannel VXLAN is used.
+
+If you wish to utilize the metrics server, you will need to open port 10250 on each node.
+
+**Important:** The VXLAN port on nodes should not be exposed to the world as it opens up your cluster network to be accessed by anyone. Run your nodes behind a firewall/security group that disables access to port 8472.
+
+<figcaption>Inbound Rules for RKE2 Server Nodes</figcaption>
+
+| Protocol | Port | Source | Description
+|-----|-----|----------------|---|
+| TCP | 9345 | RKE2 agent nodes | Kubernetes API
+| TCP | 6443 | RKE2 agent nodes | Kubernetes API
+| UDP | 8472 | RKE2 server and agent nodes | Required only for Flannel VXLAN
+| TCP | 10250 | RKE2 server and agent nodes | kubelet
+| TCP | 2379 | RKE2 server nodes | etcd client port
+| TCP | 2380 | RKE2 server nodes | etcd peer port
+| TCP | 30000-32767 | RKE2 server and agent nodes | NodePort port range
+| TCP | 5473 | Calico-node pod connecting to typha pod | Required when deploying with Calico
+| HTTP | 8080 | Load balancer/proxy that does external SSL termination | Rancher UI/API when external SSL termination is used |
+| HTTPS | 8443 | <ul><li>hosted/registered Kubernetes</li><li>any source that needs to be able to use the Rancher UI or API</li></ul> | Rancher agent, Rancher UI/API, kubectl. Not needed if you have LB doing TLS termination. |
+
+Typically all outbound traffic is allowed.
+{{% /accordion %}}
+
 ### Ports for Rancher Server in Docker
 
 {{% accordion label="Click to expand" %}}
@@ -123,7 +156,7 @@ The following tables break down the port requirements for Rancher nodes, for inb
 | Protocol | Port | Source | Description
 |-----|-----|----------------|---|
 | TCP | 80 | Load balancer/proxy that does external SSL termination | Rancher UI/API when external SSL termination is used
-| TCP | 443 | <ul><li>hosted/imported Kubernetes</li><li>any source that needs to be able to use the Rancher UI or API</li></ul> | Rancher agent, Rancher UI/API, kubectl
+| TCP | 443 | <ul><li>hosted/registered Kubernetes</li><li>any source that needs to be able to use the Rancher UI or API</li></ul> | Rancher agent, Rancher UI/API, kubectl
 
 <figcaption>Outbound Rules for Rancher Node</figcaption>
 
@@ -140,9 +173,9 @@ The following tables break down the port requirements for Rancher nodes, for inb
 
 Downstream Kubernetes clusters run your apps and services. This section describes what ports need to be opened on the nodes in downstream clusters so that Rancher can communicate with them.
 
-The port requirements differ depending on how the downstream cluster was launched. Each of the tabs below list the ports that need to be opened for different [cluster types]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/).
+The port requirements differ depending on how the downstream cluster was launched. Each of the tabs below list the ports that need to be opened for different [cluster types]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/).
 
-The following diagram depicts the ports that are opened for each [cluster type]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning).
+The following diagram depicts the ports that are opened for each [cluster type]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning).
 
 <figcaption>Port Requirements for the Rancher Management Plane</figcaption>
 
@@ -156,7 +189,7 @@ The following diagram depicts the ports that are opened for each [cluster type](
 
 {{% accordion label="Click to expand" %}}
 
-The following table depicts the port requirements for [Rancher Launched Kubernetes]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/) with nodes created in an [Infrastructure Provider]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/node-pools/).
+The following table depicts the port requirements for [Rancher Launched Kubernetes]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/) with nodes created in an [Infrastructure Provider]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/node-pools/).
 
 >**Note:**
 >The required ports are automatically opened by Rancher during creation of clusters in cloud providers like Amazon EC2 or DigitalOcean.
@@ -169,7 +202,7 @@ The following table depicts the port requirements for [Rancher Launched Kubernet
 
 {{% accordion label="Click to expand" %}}
 
-The following table depicts the port requirements for [Rancher Launched Kubernetes]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/) with [Custom Nodes]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/custom-nodes/).
+The following table depicts the port requirements for [Rancher Launched Kubernetes]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/) with [Custom Nodes]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/custom-nodes/).
 
 {{< ports-custom-nodes >}}
 
@@ -179,18 +212,19 @@ The following table depicts the port requirements for [Rancher Launched Kubernet
 
 {{% accordion label="Click to expand" %}}
 
-The following table depicts the port requirements for [hosted clusters]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/hosted-kubernetes-clusters).
+The following table depicts the port requirements for [hosted clusters]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/hosted-kubernetes-clusters).
 
 {{< ports-imported-hosted >}}
 
 {{% /accordion %}}
 
-### Ports for Imported Clusters
+### Ports for Registered Clusters
 
+Note: Registered clusters were called imported clusters before Rancher v2.5.
 
 {{% accordion label="Click to expand" %}}
 
-The following table depicts the port requirements for [imported clusters]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/imported-clusters/).
+The following table depicts the port requirements for [registered clusters]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/registered-clusters/).
 
 {{< ports-imported-hosted >}}
 
@@ -203,7 +237,7 @@ The following table depicts the port requirements for [imported clusters]({{<bas
 
 These ports are typically opened on your Kubernetes nodes, regardless of what type of cluster it is.
 
-{{% include file="/rancher/v2.0-v2.4/en/installation/requirements/ports/common-ports-table" %}}
+{{% include file="/rancher/v2.6/en/installation/requirements/ports/common-ports-table" %}}
 
 ----
 
@@ -221,7 +255,7 @@ In these cases, you have to explicitly allow this traffic in your host firewall,
 
 ### Rancher AWS EC2 Security Group
 
-When using the [AWS EC2 node driver]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/node-pools/ec2/) to provision cluster nodes in Rancher, you can choose to let Rancher create a security group called `rancher-nodes`. The following rules are automatically added to this security group.
+When using the [AWS EC2 node driver]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/node-pools/ec2/) to provision cluster nodes in Rancher, you can choose to let Rancher create a security group called `rancher-nodes`. The following rules are automatically added to this security group.
 
 |       Type      | Protocol |  Port Range | Source/Destination     | Rule Type |
 |-----------------|:--------:|:-----------:|------------------------|:---------:|
@@ -243,6 +277,27 @@ When using the [AWS EC2 node driver]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-
 
 SUSE Linux may have a firewall that blocks all ports by default. To open the ports needed for adding the host to a custom cluster,
 
+{{% tabs %}}
+{{% tab "SLES 15 / openSUSE Leap 15" %}}
+1. SSH into the instance.
+1. Start YaST in text mode:
+```
+sudo yast2
+```
+
+1. Navigate to **Security and Users** > **Firewall** > **Zones:public** > **Ports**. To navigate within the interface, follow the instructions [here](https://doc.opensuse.org/documentation/leap/reference/html/book.opensuse.reference/cha-yast-text.html#sec-yast-cli-navigate).
+1. To open the required ports, enter them into the **TCP Ports** and **UDP Ports** fields. In this example, ports 9796 and 10250 are also opened for monitoring. The resulting fields should look similar to the following:
+```yaml
+TCP Ports
+22, 80, 443, 2376, 2379, 2380, 6443, 9099, 9796, 10250, 10254, 30000-32767
+UDP Ports
+8472, 30000-32767
+```
+
+1. When all required ports are enter, select **Accept**.
+
+{{% /tab %}}
+{{% tab "SLES 12 / openSUSE Leap 42" %}}
 1. SSH into the instance.
 1. Edit /`etc/sysconfig/SuSEfirewall2` and open the required ports. In this example, ports 9796 and 10250 are also opened for monitoring:
   ```
@@ -254,5 +309,7 @@ SUSE Linux may have a firewall that blocks all ports by default. To open the por
   ```
   SuSEfirewall2
   ```
+{{% /tab %}}
+{{% /tabs %}}
 
 **Result:** The node has the open ports required to be added to a custom cluster.

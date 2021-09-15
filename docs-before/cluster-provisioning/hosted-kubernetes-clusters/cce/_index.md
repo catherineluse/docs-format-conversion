@@ -4,11 +4,9 @@ shortTitle: Huawei Cloud Kubernetes Service
 weight: 2130
 ---
 
-_Available as of v2.2.0_
+You can use Rancher to create a cluster hosted in Huawei Cloud Container Engine (CCE). Rancher has already implemented and packaged the [cluster driver]({{<baseurl>}}/rancher/v2.6/en/admin-settings/drivers/cluster-drivers/) for CCE, but by default, this cluster driver is `inactive`. In order to launch CCE clusters, you will need to [enable the CCE cluster driver]({{<baseurl>}}/rancher/v2.6/en/admin-settings/drivers/cluster-drivers/#activating-deactivating-cluster-drivers). After enabling the cluster driver, you can start provisioning CCE clusters.
 
-You can use Rancher to create a cluster hosted in Huawei Cloud Container Engine (CCE). Rancher has already implemented and packaged the [cluster driver]({{<baseurl>}}/rancher/v2.0-v2.4/en/admin-settings/drivers/cluster-drivers/) for CCE, but by default, this cluster driver is `inactive`. In order to launch CCE clusters, you will need to [enable the CCE cluster driver]({{<baseurl>}}/rancher/v2.0-v2.4/en/admin-settings/drivers/cluster-drivers/#activating-deactivating-cluster-drivers). After enabling the cluster driver, you can start provisioning CCE clusters.
-
-## Prerequisites in Huawei
+# Prerequisites in Huawei
 
 >**Note**
 >Deploying to CCE will incur charges.
@@ -17,14 +15,24 @@ You can use Rancher to create a cluster hosted in Huawei Cloud Container Engine 
 
 2. Create an [Access Key ID and Secret Access Key](https://support.huaweicloud.com/en-us/usermanual-iam/en-us_topic_0079477318.html).
 
-## Limitations
+# Prerequisite in Rancher
+
+You will need to enable the Huawei CCE cluster driver:
+
+1. Click **☰ > Cluster Management**.
+1. Click **Drivers**.
+1. In the **Cluster Drivers** tab, go to the **Huawei CCE** cluster driver and click **⋮ > Activate**.
+
+When the cluster driver is finished downloading, you will be able to create Huawei CCE clusters in Rancher.
+
+# Limitations
 
 Huawei CCE service doesn't support the ability to create clusters with public access through their API. You are required to run Rancher in the same VPC as the CCE clusters that you want to provision.
 
-## Create the CCE Cluster
+# Create the CCE Cluster
 
-1. From the **Clusters** page, click **Add Cluster**.
-1. Choose **Huawei CCE**.
+1. From the **Clusters** page, click **Create**.
+1. Click **Huawei CCE**.
 1. Enter a **Cluster Name**.
 1. Use **Member Roles** to configure user authorization for the cluster. Click **Add Member** to add users that can access the cluster. Use the **Role** drop-down to set permissions for each user.
 1. Enter **Project Id**, Access Key ID as **Access Key** and Secret Access Key **Secret Key**. Then Click **Next: Configure cluster**. Fill in the cluster configuration. For help filling out the form, refer to [Huawei CCE Configuration.](#huawei-cce-configuration)
@@ -33,9 +41,9 @@ Huawei CCE service doesn't support the ability to create clusters with public ac
 
 **Result:** 
 
-Your cluster is created and assigned a state of **Provisioning.** Rancher is standing up your cluster.
+Your cluster is created and assigned a state of **Provisioning**. Rancher is standing up your cluster.
 
-You can access your cluster after its state is updated to **Active.**
+You can access your cluster after its state is updated to **Active**.
 
 **Active** clusters are assigned two Projects: 
 
@@ -59,7 +67,7 @@ You can access your cluster after its state is updated to **Active.**
 | Cluster Label | The labels for the cluster. |
 | Highway Subnet | This option is only supported in `BareMetal` type. It requires you to select a VPC with high network speed for the bare metal machines. |
 
-**Note:** If you are editing the cluster in the `cluster.yml` instead of the Rancher UI, note that as of Rancher v2.3.0, cluster configuration directives must be nested under the `rancher_kubernetes_engine_config` directive in `cluster.yml`. For more information, refer to the section on [the config file structure in Rancher v2.3.0+.]({{<baseurl>}}/rancher/v2.0-v2.4/en/cluster-provisioning/rke-clusters/options/#config-file-structure-in-rancher-v2-3-0)
+**Note:** If you are editing the cluster in the `cluster.yml` instead of the Rancher UI, note that cluster configuration directives must be nested under the `rancher_kubernetes_engine_config` directive in `cluster.yml`. For more information, refer to the section on [the config file structure.]({{<baseurl>}}/rancher/v2.6/en/cluster-provisioning/rke-clusters/options/#config-file-structure-in-rancher-v2-3-0)
 
 # Node Configuration
 
@@ -84,4 +92,4 @@ You can access your cluster after its state is updated to **Active.**
 | EIP Charge Mode | This option will only be shown when `Create EIP` is selected. The options are pay by `BandWidth` and pay by `Traffic`. |
 | EIP Bandwidth Size | This option will only be shown when `Create EIP` is selected. The BandWidth of the EIPs. |
 | Authentication Mode | It means enabling `RBAC` or also enabling `Authenticating Proxy`. If you select `Authenticating Proxy`, the certificate which is used for authenticating proxy will be also required. |
-| Node Label | The labels for the cluster node(s). |
+| Node Label | The labels for the cluster node(s). Invalid labels can prevent upgrades or can prevent Rancher from starting. For details on label syntax requirements, see the [Kubernetes documentation.](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set) |
